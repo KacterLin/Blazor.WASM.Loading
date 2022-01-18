@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Blazor.WASM.Loading</title>
+    <base href="/" />
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="Blazor.WASM.Loading.styles.css" rel="stylesheet" />
+    <link href="manifest.json" rel="manifest" />
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
+</head>
+
+<body>
+
+    <div id="app" />
+    <app>
+        <h1 id="progressvalue" style="position: absolute; top: 50%; width: 100%; text-align: center; font-weight: 100; font-size: 3em; margin-top: -1.33em; color: #37abc8; "></h1>
+        <span id="progressbar" style='position: absolute; top: 50%; height: 2px; background: #37abc8; '></span>
+    </app>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+    <script src="_framework/blazor.webassembly.js" autostart="false"></script>
+    <script>navigator.serviceWorker.register('service-worker.js');</script>
+    <script src="https://cdn.jsdelivr.net/gh/google/brotli/js/decode.js"></script>
+    <script type="module">
+        var i = 0;
+        var allResourcesBeingLoaded = [];
+        Blazor.start({
+            loadBootResource: function (type, name, defaultUri, integrity) {
+                if (type == "dotnetjs")
+                    return defaultUri;
+
+                var fetchResources = fetch(defaultUri, {
+                    cache: 'no-cache',
+                    integrity: integrity,
+                    headers: { 'MyCustomHeader': 'My custom value' }
+                });
+
+                allResourcesBeingLoaded.push(fetchResources);
+                fetchResources.then((r) => {
+                    i++;
+                    var total = allResourcesBeingLoaded.length;
+                    var progressbar = document.getElementById('progressbar');
+                    var progressvalue = document.getElementById('progressvalue');
+                    var value = parseInt((i * 100.0) / total);
+                    var pct = value + '%';
+                    progressbar.style.width = pct;
+                    progressvalue.innerHTML = pct;
+                    console.info(i + '/' + total + ' (' + pct + ') ' + name);
+                });
+                return fetchResources;
+            }
+        });
+    </script>
+</body>
+
+</html>
