@@ -46,6 +46,7 @@ Blazor WebAssembly 目前最大的痛點就是第一次載入時間過長，導�
 </script>
 ```
 - 進度顯示與壓縮
+
 當網站託管在不支援靜態壓縮的服務商時(Ex: Github Pages、Cloudflare Pages)，這時需要稍微修改程式碼，以符合下載壓縮檔並解壓縮的流程。
 ``` html
 <script src="https://cdn.jsdelivr.net/gh/google/brotli/js/decode.js"></script>
