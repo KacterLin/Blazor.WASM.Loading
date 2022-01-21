@@ -2,7 +2,7 @@
 Blazor WebAssembly 目前最大的痛點就是第一次載入時間過長，導致使用者體驗不好。再加上預設的樣板中只顯示一個 "Loading" 字樣來表示網頁正在載入中，無法得知目前載入的進度。為了提升使用者體驗，載入時加入進度條(Progress Bar)來表示載入進度，是目前最佳做法。
 
 ## Demo
-- [Loading progress Demo](https://blazor-wasm-loading.pages.dev/)
+- [Loading progress Demo](https://blazor-wasm-loading.vercel.app/)
 
 ![Demo](https://github.com/KacterLin/Blazor.WASM.Loading/blob/main/content/demo.png?raw=true)
 
